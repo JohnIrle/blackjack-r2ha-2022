@@ -1,5 +1,7 @@
-package com.r2ha.blackjack;
+package com.r2ha.blackjack.domain;
 
+import com.r2ha.blackjack.domain.Card;
+import com.r2ha.blackjack.domain.Deck;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashSet;

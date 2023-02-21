@@ -1,7 +1,7 @@
-package com.r2ha.blackjack;
+package com.r2ha.blackjack.adapter.in.console;
 
-import com.r2ha.blackjack.Card;
-import com.r2ha.blackjack.Rank;
+import com.r2ha.blackjack.domain.Rank;
+import com.r2ha.blackjack.domain.Card;
 import org.fusesource.jansi.Ansi;
 
 import static org.fusesource.jansi.Ansi.ansi;
