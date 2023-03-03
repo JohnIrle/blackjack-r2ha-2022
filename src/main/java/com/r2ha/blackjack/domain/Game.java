@@ -11,7 +11,7 @@ import static org.fusesource.jansi.Ansi.ansi;
 
 public class Game {
 
-    private static final PrintStream SystemOut = System.out;
+    private static PrintStream systemOut = System.out;
     private final Deck deck;
 
     private final Hand dealerHand = new Hand();
@@ -33,7 +33,7 @@ public class Game {
     }
 
     private static PrintStream getPrintStream() {
-        return SystemOut;
+        return systemOut;
     }
 
     private static void playGame() {
@@ -63,6 +63,10 @@ public class Game {
 
     public Game() {
         deck = new Deck();
+    }
+
+    public static void directOutputTo(PrintStream printStream) {
+        systemOut = printStream;
     }
 
     public void initialDeal() {
