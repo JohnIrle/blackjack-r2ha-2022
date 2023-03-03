@@ -16,8 +16,10 @@ public class Game {
 
     private final Hand dealerHand = new Hand();
     private final Hand playerHand = new Hand();
+    private static Scanner scanner;
 
     public static void main(String[] args) {
+        scanner = new Scanner(System.in);
         displayWelcomeScreen();
         waitForEnterFromUser();
 
@@ -45,7 +47,6 @@ public class Game {
                                    .cursor(3, 1)
                                    .fgBrightBlack().a("Hit [ENTER] to start..."));
 
-        Scanner scanner = new Scanner(System.in);
         scanner.nextLine();
     }
 
@@ -130,7 +131,6 @@ public class Game {
 
     private String inputFromPlayer() {
         getPrintStream().println("[H]it or [S]tand?");
-        Scanner scanner = new Scanner(System.in);
         return scanner.nextLine();
     }
 
