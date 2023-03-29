@@ -8,6 +8,7 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 import java.io.PrintStream;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.*;
 
@@ -34,9 +35,45 @@ public class GameDisplayTest {
         // Starts the game with an empty String array for the arguments
         Game.main(new String[0]);
 
-        String output = baos.toString();
-        assertThat(output).containsIgnoringWhitespaces(
-                "Hit [ENTER]",
-                "[H]it or [S]tand?");
+        List<String> cleanedOutput = baos.toString()
+                                         .replaceAll("\u001B\\[[\\d;]*[^\\d;]", "\n")
+                                         .lines()
+                                         .map(String::strip)
+                                         .toList();
+
+        assertThat(cleanedOutput)
+                .contains(
+                        "Welcome to",
+                        "JitterTed's",
+                        "Blackjack game",
+                        "Hit [ENTER] to start...",
+                        "Dealer has:",
+                        "Player has:",
+                        "[H]it or [S]tand?"
+                );
+
+        // count card tops, 1 for each card displayed
+        long cardTops = cleanedOutput.stream()
+                                     .filter(s -> s.equals("┌─────────┐")).count();
+        assertThat(cardTops)
+                .describedAs("At least 8 cards should have been displayed, could be more depending on Dealer's hand")
+                .isGreaterThanOrEqualTo(8);
+
+        // Count card bottoms, must match the number of card tops
+        long cardBottoms = cleanedOutput.stream()
+                                        .filter(s -> s.equals("└─────────┘")).count();
+        assertThat(cardBottoms)
+                .describedAs("Number of card bottoms must match number of card tops")
+                .isEqualTo(cardTops);
+
+        // Count card middles
+        long cardMiddles = cleanedOutput.stream()
+                                        .filter(s -> s.equals("│         │")
+                                                // Back of dealer card
+                                                || s.equals("│░░░░░░░░░│"))
+                                        .count();
+        assertThat(cardMiddles)
+                .describedAs("Number of card middles must match number of card tops * 2")
+                .isEqualTo(cardTops * 2);
     }
 }
