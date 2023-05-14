@@ -14,12 +14,13 @@ public class Game {
     private static PrintStream systemOut = System.out;
     private final Deck deck;
 
+    private boolean playerDone;
+
     private final Hand dealerHand = new Hand();
     private final Hand playerHand = new Hand();
     private static Scanner scanner;
 
     public static void main(String[] args) {
-        scanner = new Scanner(System.in);
         displayWelcomeScreen();
         waitForEnterFromUser();
 
@@ -28,7 +29,7 @@ public class Game {
         resetScreen();
     }
 
-    private static void resetScreen() {
+    public static void resetScreen() {
         getPrintStream().println(ansi().reset());
     }
 
@@ -42,7 +43,7 @@ public class Game {
         game.play();
     }
 
-    private static void waitForEnterFromUser() {
+    public static void waitForEnterFromUser() {
         getPrintStream().println(ansi()
                                    .cursor(3, 1)
                                    .fgBrightBlack().a("Hit [ENTER] to start..."));
@@ -50,7 +51,8 @@ public class Game {
         scanner.nextLine();
     }
 
-    private static void displayWelcomeScreen() {
+    public static void displayWelcomeScreen() {
+        scanner = new Scanner(System.in);
         AnsiConsole.systemInstall();
         getPrintStream().println(ansi()
                                    .bgBright(Ansi.Color.WHITE)
@@ -90,7 +92,7 @@ public class Game {
         dealerHand.drawFrom(deck);
     }
 
-    private void determineOutcome() {
+    public void determineOutcome() {
         if (playerHand.isBusted()) {
             getPrintStream().println("You Busted, so you lose.  💸");
         } else if (dealerHand.isBusted()) {
@@ -104,7 +106,7 @@ public class Game {
         }
     }
 
-    private void dealerTurn() {
+    public void dealerTurn() {
         // Dealer makes its choice automatically based on a simple heuristic (<=16 must hit, =>17 must stand)
         if (!playerHand.isBusted()) {
             while (dealerHand.dealerMustDrawCard()) {
@@ -133,12 +135,12 @@ public class Game {
         }
     }
 
-    private String inputFromPlayer() {
+    public String inputFromPlayer() {
         getPrintStream().println("[H]it or [S]tand?");
         return scanner.nextLine();
     }
 
-    private void displayGameState() {
+    public void displayGameState() {
         getPrintStream().print(ansi().eraseScreen().cursor(1, 1));
         getPrintStream().println("Dealer has: ");
         getPrintStream().println(ConsoleHand.displayFaceUpCard(dealerHand));
@@ -166,7 +168,7 @@ public class Game {
                         .a("└─────────┘"));
     }
 
-    private void displayFinalGameState() {
+    public void displayFinalGameState() {
         getPrintStream().print(ansi().eraseScreen().cursor(1, 1));
         getPrintStream().println("Dealer has: ");
         getPrintStream().println(ConsoleHand.cardsAsString(dealerHand));
@@ -178,4 +180,16 @@ public class Game {
         getPrintStream().println(" (" + playerHand.value() + ")");
     }
 
+    public void playerHits() {
+        playerHand.drawFrom(deck);
+       playerDone = playerHand.isBusted();
+    }
+
+    public void playerStands() {
+        playerDone = true;
+    }
+
+    public boolean isPlayerDone() {
+        return playerDone;
+    }
 }
