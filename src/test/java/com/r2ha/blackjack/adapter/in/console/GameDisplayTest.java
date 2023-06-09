@@ -75,5 +75,12 @@ public class GameDisplayTest {
         assertThat(cardMiddles)
                 .describedAs("Number of card middles must match number of card tops * 2")
                 .isEqualTo(cardTops * 2);
+
+        assertThat(cleanedOutput)
+                .containsAnyOf("You Busted, so you lose.  💸",
+                               "Dealer went BUST, Player wins! Yay for you!! 💵",
+                               "You beat the Dealer! 💵",
+                               "Push: Nobody wins, we'll call it even.",
+                               "You lost to the Dealer. 💸");
     }
 }

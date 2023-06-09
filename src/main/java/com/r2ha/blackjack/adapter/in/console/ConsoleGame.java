@@ -63,7 +63,7 @@ public class ConsoleGame {
 
         game.displayFinalGameState();
 
-        game.determineOutcome();
+        getPrintStream().println(game.determineOutcome());
 
         resetScreen();
     }
