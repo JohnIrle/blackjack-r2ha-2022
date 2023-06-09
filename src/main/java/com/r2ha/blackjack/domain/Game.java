@@ -1,5 +1,6 @@
 package com.r2ha.blackjack.domain;
 
+import com.r2ha.blackjack.adapter.in.console.ConsoleCard;
 import com.r2ha.blackjack.adapter.in.console.ConsoleGame;
 import com.r2ha.blackjack.adapter.in.console.ConsoleHand;
 
@@ -58,26 +59,12 @@ public class Game {
         ConsoleGame.getPrintStream().println(ConsoleHand.displayFaceUpCard(dealerHand));
 
         // second card is the hole card, which is hidden, or "face down"
-        displayBackOfCard();
+        ConsoleCard.displayBackOfCard();
 
         ConsoleGame.getPrintStream().println();
         ConsoleGame.getPrintStream().println("Player has: ");
         ConsoleGame.getPrintStream().println(ConsoleHand.cardsAsString(playerHand));
         ConsoleGame.getPrintStream().println(" (" + playerHand.value() + ")");
-    }
-
-    private void displayBackOfCard() {
-        ConsoleGame.getPrintStream().print(
-                ansi()
-                        .cursorUp(7)
-                        .cursorRight(12)
-                        .a("┌─────────┐").cursorDown(1).cursorLeft(11)
-                        .a("│░░░░░░░░░│").cursorDown(1).cursorLeft(11)
-                        .a("│░ J I T ░│").cursorDown(1).cursorLeft(11)
-                        .a("│░ T E R ░│").cursorDown(1).cursorLeft(11)
-                        .a("│░ T E D ░│").cursorDown(1).cursorLeft(11)
-                        .a("│░░░░░░░░░│").cursorDown(1).cursorLeft(11)
-                        .a("└─────────┘"));
     }
 
     public void displayFinalGameState() {
