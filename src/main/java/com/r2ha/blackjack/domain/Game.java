@@ -20,27 +20,12 @@ public class Game {
     private final Hand playerHand = new Hand();
     private static Scanner scanner;
 
-    public static void main(String[] args) {
-        displayWelcomeScreen();
-        waitForEnterFromUser();
-
-        playGame();
-
-        resetScreen();
-    }
-
     public static void resetScreen() {
         getPrintStream().println(ansi().reset());
     }
 
     private static PrintStream getPrintStream() {
         return systemOut;
-    }
-
-    private static void playGame() {
-        Game game = new Game();
-        game.initialDeal();
-        game.play();
     }
 
     public static void waitForEnterFromUser() {
@@ -76,16 +61,6 @@ public class Game {
         dealRoundOfCards();
     }
 
-    public void play() {
-        playerTurn();
-
-        dealerTurn();
-
-        displayFinalGameState();
-
-        determineOutcome();
-    }
-
     private void dealRoundOfCards() {
         // why: players first because this is the rule
         playerHand.drawFrom(deck);
@@ -111,26 +86,6 @@ public class Game {
         if (!playerHand.isBusted()) {
             while (dealerHand.dealerMustDrawCard()) {
                 dealerHand.drawFrom(deck);
-            }
-        }
-    }
-
-    private void playerTurn() {
-        // get Player's decision: hit until they stand, then they're done (or they go bust)
-
-        while (!playerHand.isBusted()) {
-            displayGameState();
-            String playerChoice = inputFromPlayer().toLowerCase();
-            if (playerChoice.startsWith("s")) {
-                break;
-            }
-            if (playerChoice.startsWith("h")) {
-                playerHand.drawFrom(deck);
-                if (playerHand.isBusted()) {
-                    return;
-                }
-            } else {
-                getPrintStream().println("You need to [H]it or [S]tand");
             }
         }
     }
