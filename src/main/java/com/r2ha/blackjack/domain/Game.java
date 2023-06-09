@@ -52,11 +52,6 @@ public class Game {
         }
     }
 
-    public String inputFromPlayer() {
-        ConsoleGame.getPrintStream().println("[H]it or [S]tand?");
-        return ConsoleGame.scanner.nextLine();
-    }
-
     public void displayGameState() {
         ConsoleGame.getPrintStream().print(ansi().eraseScreen().cursor(1, 1));
         ConsoleGame.getPrintStream().println("Dealer has: ");

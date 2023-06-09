@@ -51,6 +51,11 @@ public class ConsoleGame {
         systemOut = printStream;
     }
 
+    public static String inputFromPlayer() {
+        getPrintStream().println("[H]it or [S]tand?");
+        return scanner.nextLine();
+    }
+
     public void start() {
         displayWelcomeScreen();
         waitForEnterFromUser();
@@ -71,7 +76,7 @@ public class ConsoleGame {
     public void playerPlays() {
         while (!game.isPlayerDone()) {
             game.displayGameState();
-            String command = game.inputFromPlayer();
+            String command = inputFromPlayer();
             handle(command);
         }
     }
