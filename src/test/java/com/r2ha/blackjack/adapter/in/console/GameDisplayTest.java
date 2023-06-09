@@ -1,7 +1,6 @@
 package com.r2ha.blackjack.adapter.in.console;
 
 import com.r2ha.blackjack.Blackjack;
-import com.r2ha.blackjack.domain.Game;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 
@@ -32,7 +31,7 @@ public class GameDisplayTest {
         provideInput("\nS\n");
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(baos);
-        Game.directOutputTo(printStream);
+        ConsoleGame.directOutputTo(printStream);
         // Starts the game with an empty String array for the arguments
         Blackjack.main(new String[0]);
 
